@@ -1,0 +1,73 @@
+@startuml Diagrama_Caso_de_Uso_eBooks
+
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam usecaseFontSize 12
+skinparam actorFontSize 13
+skinparam rectangleFontSize 14
+
+
+actor "Aluno" as aluno
+actor "Bibliotecário" as bib
+actor "Equipe da\nBiblioteca" as equipe
+actor "Sistema de\nEstatísticas de Uso" as stats <<Sistema Externo>>
+
+actor "Usuário" as usuario
+
+aluno --|> usuario
+bib --|> usuario
+equipe --|> usuario
+
+
+rectangle "Sistema de Gestão de eBooks da Universidade" {
+
+
+  usecase "Adicionar eBook à\nEstante Pessoal" as UC_ADD
+  usecase "Remover eBook da\nEstante Pessoal" as UC_REM
+  usecase "Consultar\nEstante Pessoal" as UC_CONS_EST
+
+
+  usecase "Manter Informações\nde eBooks" as UC_MANT_EBOOK
+  usecase "Manter Informações\nde Alunos" as UC_MANT_ALUNO
+  usecase "Manter Informações\nde Bibliotecários" as UC_MANT_BIB
+
+
+  usecase "Consultar Alunos com\nDeterminado eBook" as UC_CONS_ALUNOS
+
+
+  usecase "Realizar Login" as UC_LOGIN
+  usecase "Validar Senha" as UC_VALIDAR
+
+
+  usecase "Verificar Disponibilidade\nde Licença" as UC_LICENCA
+
+
+  usecase "Notificar Sistema\nde Estatísticas" as UC_NOTIF
+}
+
+
+aluno --> UC_ADD
+aluno --> UC_REM
+aluno --> UC_CONS_EST
+
+
+equipe --> UC_MANT_EBOOK
+equipe --> UC_MANT_ALUNO
+equipe --> UC_MANT_BIB
+
+
+bib --> UC_CONS_ALUNOS
+
+
+usuario --> UC_LOGIN
+
+
+UC_NOTIF --> stats
+
+
+UC_LOGIN ..> UC_VALIDAR : <<include>>
+UC_ADD ..> UC_LICENCA : <<include>>
+UC_ADD ..> UC_NOTIF : <<include>>
+
+@enduml
