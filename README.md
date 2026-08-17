@@ -8,7 +8,7 @@ Os alunos podem adicionar à sua estante pessoal até 4 eBooks de leitura obriga
 
 ## Documentação
 
-- [Diagrama de Casos de Uso (PlantUML)](docs/diagramas/casos-de-uso.puml)
+- [Diagrama de Casos de Uso (PlantUML)](docs/diagramas/diagrama_caso_de_uso_lab01.png)
 - [Histórias de Usuário](docs/historias-de-usuario.md)
 
 ## Repositório
