@@ -1,0 +1,111 @@
+@startuml Diagrama_de_Classes
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam classAttributeFontSize 11
+
+enum FormatoArquivo {
+  PDF
+  EPUB
+}
+
+enum Categoria {
+  LITERATURA
+  TECNICO
+  PERIODICO
+}
+
+enum TipoLeitura {
+  OBRIGATORIA
+  LIVRE
+}
+
+abstract class Usuario {
+  - nome: String
+  - email: String
+  - senha: String
+  + realizarLogin(): boolean
+  + validarSenha(senha: String): boolean
+}
+
+class Aluno {
+  - matricula: String
+}
+
+class Bibliotecario {
+  - registro: String
+}
+
+class EquipeBiblioteca {
+  + cadastrarEBook(ebook: EBook): void
+  + cadastrarAluno(aluno: Aluno): void
+  + cadastrarBibliotecario(bib: Bibliotecario): void
+}
+
+class EBook {
+  - titulo: String
+  - editora: String
+  - formato: FormatoArquivo
+  - categoria: Categoria
+}
+
+class Licenca {
+  - maxAcessosSimultaneos: int {<= 60}
+  - acessosAtuais: int
+  - semestre: String
+  + verificarDisponibilidade(): boolean
+  + ocuparLicenca(): void
+  + liberarLicenca(): void
+  + avaliarRenovacao(qtdAlunos: int): boolean
+}
+
+class EstantePessoal {
+  - maxObrigatorios: int = 4
+  - maxLivres: int = 2
+  + adicionarItem(item: ItemEstante): boolean
+  + removerItem(item: ItemEstante): void
+  + consultarItens(): List<ItemEstante>
+  + contarItensPorTipo(tipo: TipoLeitura): int
+}
+
+class ItemEstante {
+  - tipoLeitura: TipoLeitura
+  - dataAdicao: Date
+}
+
+class Catalogo {
+  - semestre: String
+  + listarEBooks(): List<EBook>
+  + renovarCatalogo(): void
+}
+
+class SistemaEstatisticas <<Sistema Externo>> {
+  + receberNotificacao(aluno: Aluno, ebook: EBook): void
+}
+
+
+Usuario <|-- Aluno
+Usuario <|-- Bibliotecario
+
+Aluno "1" -- "1" EstantePessoal : possui >
+
+EstantePessoal "1" o-- "0..6" ItemEstante : contém >
+
+ItemEstante "0..*" -- "1" EBook : referencia >
+
+EBook "1" -- "1" Licenca : possui >
+
+Catalogo "1" o-- "0..*" EBook : contém >
+
+EquipeBiblioteca "1..*" -- "1" Catalogo : gerencia >
+
+Bibliotecario "1" -- "0..*" Aluno : consulta estante de >
+
+EBook -- FormatoArquivo
+EBook -- Categoria
+ItemEstante -- TipoLeitura
+
+EstantePessoal ..> SistemaEstatisticas : notifica >
+EstantePessoal ..> Licenca : verifica >
+
+@enduml
