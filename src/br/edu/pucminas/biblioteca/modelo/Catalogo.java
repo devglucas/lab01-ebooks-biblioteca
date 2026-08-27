@@ -13,13 +13,24 @@ public class Catalogo {
         this.ebooks = new ArrayList<>();
     }
 
+    public void adicionarEBook(EBook ebook) {
+        if (ebook != null && !ebooks.contains(ebook)) {
+            ebooks.add(ebook);
+        }
+    }
+
     public List<EBook> listarEBooks() {
-        // TODO: implementar na Sprint 3
-        return ebooks;
+        return new ArrayList<>(ebooks);
     }
 
     public void renovarCatalogo() {
-        // TODO: implementar na Sprint 3
+        // Ao renovar o catálogo para um novo semestre, os acessos de todas as
+        // licenças são zerados, liberando novamente os 60 acessos simultâneos.
+        for (EBook ebook : ebooks) {
+            if (ebook.getLicenca() != null) {
+                ebook.getLicenca().setAcessosAtuais(0);
+            }
+        }
     }
 
     public String getSemestre() {

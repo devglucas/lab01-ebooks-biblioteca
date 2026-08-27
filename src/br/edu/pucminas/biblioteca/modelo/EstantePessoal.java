@@ -14,22 +14,54 @@ public class EstantePessoal {
     }
 
     public boolean adicionarItem(ItemEstante item) {
-        // TODO: implementar na Sprint 3
-        return false;
+        if (item == null) {
+            return false;
+        }
+
+        TipoLeitura tipo = item.getTipoLeitura();
+        if (tipo == TipoLeitura.OBRIGATORIA
+                && contarItensPorTipo(TipoLeitura.OBRIGATORIA) >= maxObrigatorios) {
+            return false;
+        }
+        if (tipo == TipoLeitura.LIVRE
+                && contarItensPorTipo(TipoLeitura.LIVRE) >= maxLivres) {
+            return false;
+        }
+
+        EBook ebook = item.getEbook();
+        if (ebook != null && ebook.getLicenca() != null) {
+            Licenca licenca = ebook.getLicenca();
+            if (!licenca.verificarDisponibilidade()) {
+                return false;
+            }
+            licenca.ocuparLicenca();
+        }
+
+        itens.add(item);
+        return true;
     }
 
     public void removerItem(ItemEstante item) {
-        // TODO: implementar na Sprint 3
+        if (item != null && itens.remove(item)) {
+            EBook ebook = item.getEbook();
+            if (ebook != null && ebook.getLicenca() != null) {
+                ebook.getLicenca().liberarLicenca();
+            }
+        }
     }
 
     public List<ItemEstante> consultarItens() {
-        // TODO: implementar na Sprint 3
-        return itens;
+        return new ArrayList<>(itens);
     }
 
     public int contarItensPorTipo(TipoLeitura tipo) {
-        // TODO: implementar na Sprint 3
-        return 0;
+        int total = 0;
+        for (ItemEstante item : itens) {
+            if (item.getTipoLeitura() == tipo) {
+                total++;
+            }
+        }
+        return total;
     }
 
     public int getMaxObrigatorios() {
