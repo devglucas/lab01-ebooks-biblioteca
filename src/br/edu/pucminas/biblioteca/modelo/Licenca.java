@@ -16,21 +16,23 @@ public class Licenca {
     }
 
     public boolean verificarDisponibilidade() {
-        // TODO: implementar na Sprint 3
-        return false;
+        return acessosAtuais < maxAcessosSimultaneos;
     }
 
     public void ocuparLicenca() {
-        // TODO: implementar na Sprint 3
+        if (verificarDisponibilidade()) {
+            acessosAtuais++;
+        }
     }
 
     public void liberarLicenca() {
-        // TODO: implementar na Sprint 3
+        if (acessosAtuais > 0) {
+            acessosAtuais--;
+        }
     }
 
     public boolean avaliarRenovacao(int qtdAlunos) {
-        // TODO: implementar na Sprint 3
-        return false;
+        return qtdAlunos >= 3;
     }
 
     public int getMaxAcessosSimultaneos() {

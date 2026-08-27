@@ -13,13 +13,12 @@ public abstract class Usuario {
     }
 
     public boolean realizarLogin() {
-        // TODO: implementar na Sprint 3
-        return false;
+        return email != null && !email.isEmpty()
+                && senha != null && !senha.isEmpty();
     }
 
     public boolean validarSenha(String senha) {
-        // TODO: implementar na Sprint 3
-        return false;
+        return this.senha != null && this.senha.equals(senha);
     }
 
     public String getNome() {
