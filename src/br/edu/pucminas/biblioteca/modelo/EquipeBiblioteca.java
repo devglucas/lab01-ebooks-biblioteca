@@ -33,6 +33,82 @@ public class EquipeBiblioteca {
         }
     }
 
+    // --- HU06/07/08: remoção (o "alterar" é feito localizando a entidade com
+    // os finders abaixo e usando os setters já existentes) ---
+
+    public boolean removerEBook(EBook ebook) {
+        return catalogo != null && catalogo.removerEBook(ebook);
+    }
+
+    public boolean removerAluno(Aluno aluno) {
+        return aluno != null && alunos.remove(aluno);
+    }
+
+    public boolean removerBibliotecario(Bibliotecario bib) {
+        return bib != null && bibliotecarios.remove(bib);
+    }
+
+    // --- Finders ---
+
+    public Aluno buscarAlunoPorMatricula(String matricula) {
+        if (matricula == null) {
+            return null;
+        }
+        for (Aluno aluno : alunos) {
+            if (matricula.equals(aluno.getMatricula())) {
+                return aluno;
+            }
+        }
+        return null;
+    }
+
+    public Aluno buscarAlunoPorEmail(String email) {
+        if (email == null) {
+            return null;
+        }
+        for (Aluno aluno : alunos) {
+            if (email.equalsIgnoreCase(aluno.getEmail())) {
+                return aluno;
+            }
+        }
+        return null;
+    }
+
+    public Bibliotecario buscarBibliotecarioPorRegistro(String registro) {
+        if (registro == null) {
+            return null;
+        }
+        for (Bibliotecario bib : bibliotecarios) {
+            if (registro.equals(bib.getRegistro())) {
+                return bib;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Autentica um usuário (HU01 / Passo 8). Procura entre alunos e
+     * bibliotecários um cujo e-mail corresponda e cuja senha seja válida.
+     * Retorna o {@link Usuario} autenticado ou {@code null} se as credenciais
+     * não conferirem.
+     */
+    public Usuario autenticar(String email, String senha) {
+        if (email == null || senha == null) {
+            return null;
+        }
+        for (Aluno aluno : alunos) {
+            if (email.equalsIgnoreCase(aluno.getEmail()) && aluno.validarSenha(senha)) {
+                return aluno;
+            }
+        }
+        for (Bibliotecario bib : bibliotecarios) {
+            if (email.equalsIgnoreCase(bib.getEmail()) && bib.validarSenha(senha)) {
+                return bib;
+            }
+        }
+        return null;
+    }
+
     public Catalogo getCatalogo() {
         return catalogo;
     }

@@ -23,6 +23,31 @@ public class Catalogo {
         return new ArrayList<>(ebooks);
     }
 
+    /**
+     * Remove um eBook do catálogo (HU06). Retorna {@code true} se o eBook
+     * estava presente e foi removido.
+     */
+    public boolean removerEBook(EBook ebook) {
+        return ebook != null && ebooks.remove(ebook);
+    }
+
+    /**
+     * Localiza um eBook pelo título (HU06 - apoio ao "alterar"/"remover").
+     * A comparação ignora diferenças de caixa. Retorna {@code null} se nenhum
+     * eBook corresponder.
+     */
+    public EBook buscarPorTitulo(String titulo) {
+        if (titulo == null) {
+            return null;
+        }
+        for (EBook ebook : ebooks) {
+            if (titulo.equalsIgnoreCase(ebook.getTitulo())) {
+                return ebook;
+            }
+        }
+        return null;
+    }
+
     public void renovarCatalogo() {
         // Ao renovar o catálogo para um novo semestre, os acessos de todas as
         // licenças são zerados, liberando novamente os 60 acessos simultâneos.
