@@ -1,0 +1,6 @@
+# Dados persistidos em tempo de execucao (nao versionar dados de teste)
+dados/
+
+# Artefatos de compilacao Java
+out/
+*.class
